@@ -17,7 +17,7 @@ mean_freq = df.filter(regex='_freq').mean(axis=1).to_frame()
 mean_freq.columns = ['mean_freq']
 mean_freq = mean_freq.sort_values(by='mean_freq', ascending=False)
 mean_freq = mean_freq[mean_freq['mean_freq'] > 0.01]
-
+print(mean_freq)
 plt.bar(mean_freq.index, mean_freq['mean_freq'])
 plt.xticks(rotation=90)
 plt.ylabel('Frequency')
