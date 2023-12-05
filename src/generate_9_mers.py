@@ -36,5 +36,14 @@ peptide_df['peptide'] = peptide_df.index.str.split('_').str[0]
 peptide_df['pos'] = peptide_df.index.str.split('_').str[1].astype(int)
 peptide_df = peptide_df.sort_values(['pos', 'freq'], ascending=[True, False])
 
+with open("data/sars-cov-2-sequences/ancestral.fa") as f:
+    ancestral = f.readlines()[0]
+
+peptide_df['ancestral'] = False
+
+for pos in peptide_df['pos'].unique():
+    ancestral_peptide = ancestral[pos:pos+9]
+    peptide_df.loc[(peptide_df['pos']==pos) & (peptide_df['peptide']==ancestral_peptide), 'ancestral'] = True
+
 peptide_df.to_csv('data/NetMHCpan/peptides.csv', index=False)
 peptide_df['peptide'].to_csv('data/NetMHCpan/input_peptides.txt', index=False, header=False)
