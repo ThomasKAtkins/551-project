@@ -1,3 +1,5 @@
+# ML
+
 import numpy as np
 from collections import Counter
 import pandas as pd
@@ -34,7 +36,7 @@ def get_freq_dist(seqs):
     
     vec_of_freqs = {i: [] for i in range(max(map(len, seqs)))}
     vec_of_freqs_bayes = {i: [] for i in range(max(map(len, seqs)))}
-    alpha = 0.01
+    alpha = 0.5
     for i in range(len(counts)):
         # Extract counts
         sorted_items = [t[1] for t in counts[i].items()]
@@ -74,28 +76,39 @@ for i in range(len(freq_dist)):
 
 out_df_KL = pd.DataFrame({"Swiss-Prot" : KL_bg1, "Complete Human Genebank" : KL_bg2})
 out_df_Shannon = pd.DataFrame({"Shannon" : Shannon_entr})
-
 out_df_KL.to_csv("data\\KL\\KL_divs.csv", index=False)
 out_df_Shannon.to_csv("data\\entropy\\manual\\Shannon.csv", index=False)
 
-# Plot
-plt.bar(list(range(len(KL_bg1))), KL_bg1)
-plt.xlabel("Sequence position in alignment")
-plt.ylabel("KL Divergence")
-plt.title("KL divergence by position (background: Swiss-Prot)")
+abolish_binding = [455, 456, 459, 474, 475, 486, 490, 493, 499]
+enhance_binding = [439, 452, 470, 484, 498, 501]
+
+# Plot; limit to RBD
+plt.bar(list(range(len(KL_bg2)))[306:527:1], KL_bg2[306:527:1], color="blue")
+plt.bar(abolish_binding, [KL_bg1[x] for x in abolish_binding], color="red", label="abolish binding")
+plt.bar(enhance_binding, [KL_bg1[x] for x in enhance_binding], color="green", label="enhance binding")
+plt.legend()
+plt.xlabel("Sequence position in alignment", fontsize=18)
+plt.ylabel("KL Divergence", fontsize=18)
+plt.title("KL divergence by position (background: Complete Human Genebank)", fontsize=20)
 plt.savefig("data\\KL\\KL_SwissProt.png")
 plt.show()
 
-plt.bar(list(range(len(KL_bg2))), KL_bg1)
+plt.bar(list(range(len(KL_bg2))), KL_bg2)
 plt.xlabel("Sequence position in alignment")
 plt.ylabel("KL Divergence")
 plt.title("KL divergence by position (background: Complete Human Genebank)")
 plt.savefig("data\\KL\\KL_CHG.png")
 plt.show()
 
-plt.bar(list(range(len(Shannon_entr))), Shannon_entr)
-plt.xlabel("Sequence position in alignment")
-plt.ylabel("Shannon Entropy")
-plt.title("Shannon entropy by position")
+plt.bar(list(range(len(Shannon_entr)))[306:527:1], Shannon_entr[306:527:1], color="blue")
+plt.bar(abolish_binding, [Shannon_entr[x] for x in abolish_binding], color="red")
+plt.bar(enhance_binding, [Shannon_entr[x] for x in enhance_binding], color="green")
+plt.scatter(abolish_binding, [Shannon_entr[x] for x in abolish_binding], color="red", label="abolish binding")
+plt.scatter(enhance_binding, [Shannon_entr[x] for x in enhance_binding], color="green", label="enhance binding")
+plt.legend()
+plt.xlabel("Sequence position in alignment", fontsize=18)
+plt.ylabel("Shannon Entropy", fontsize=18)
+plt.ylim([-0.01, 0.15])
+plt.title("Shannon entropy by position", fontsize=20)
 plt.savefig("data\\entropy\\manual\\Shannon.png")
 plt.show()
