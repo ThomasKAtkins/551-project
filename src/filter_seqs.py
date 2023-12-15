@@ -1,4 +1,4 @@
-# ML
+# code by Masha Larina
 
 def ltfivedels(seq):
     consecutive_count = 0
