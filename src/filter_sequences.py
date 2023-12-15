@@ -1,4 +1,4 @@
-
+# code by thomas
 
 file = 'data/sars-cov-2-sequences/aligned_spike_transl.fa'
 

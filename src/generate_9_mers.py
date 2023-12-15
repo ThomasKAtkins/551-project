@@ -1,3 +1,5 @@
+# code by thomas
+
 import pandas as pd
 
 file = 'data/sars-cov-2-sequences/aligned_spike_transl_filtered.fa'
