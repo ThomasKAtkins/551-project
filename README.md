@@ -10,3 +10,6 @@
   * For each position in the SARS-CoV-2 spike protein sequence, a numeric score for how much that reside binds to ACE2
 * Thomas
   * For each position in the SARS-CoV-2 spike protein sequence, a score for how common it is for HLA to bind to that residue
+* Jonas
+  * Testing for statistical significance using lineare regression model and random forest regression model
+  
